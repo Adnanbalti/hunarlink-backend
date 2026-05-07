@@ -1,6 +1,7 @@
 package com.hunarlink.modules.user;
 
 import com.hunarlink.shared.response.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ApiResponse<User> createUser(@RequestBody User user) {
+    public ApiResponse<User> createUser(@RequestBody @Valid User user) {
         User created = userService.createUser(user);
         return ApiResponse.ok("User created successfully", created);
     }
