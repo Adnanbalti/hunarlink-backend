@@ -1,0 +1,30 @@
+package com.hunarlink.modules.review;
+
+import com.hunarlink.shared.response.ApiResponse;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v1/reviews")
+@RequiredArgsConstructor
+public class ReviewController {
+
+    private final ReviewService reviewService;
+
+    @PostMapping
+    public ApiResponse<Review> createReview(
+            @RequestParam UUID bookingId,
+            @RequestBody @Valid Review review) {
+        Review created = reviewService.createReview(bookingId, review);
+        return ApiResponse.ok("Review submitted successfully", created);
+    }
+
+    @GetMapping("/provider/{providerId}")
+    public ApiResponse<List<Review>> getProviderReviews(@PathVariable UUID providerId) {
+        List<Review> reviews = reviewService.getProviderReviews(providerId);
+        return ApiResponse.ok("Reviews fetched", reviews);
+    }
+}
