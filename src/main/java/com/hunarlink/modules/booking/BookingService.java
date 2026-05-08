@@ -1,5 +1,7 @@
 package com.hunarlink.modules.booking;
 
+import com.hunarlink.modules.notification.Notification;
+import com.hunarlink.modules.notification.NotificationService;
 import com.hunarlink.modules.provider.Provider;
 import com.hunarlink.modules.provider.ProviderService;
 import com.hunarlink.modules.user.User;
@@ -17,6 +19,7 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final UserService userService;
     private final ProviderService providerService;
+    private final NotificationService notificationService;
 
     public Booking createBooking(UUID consumerId, UUID providerId, Booking booking) {
         User consumer = userService.findById(consumerId);
@@ -27,7 +30,17 @@ public class BookingService {
         booking.setStatus(Booking.BookingStatus.PENDING);
         booking.setTotalAmount(provider.getHourlyRate());
 
-        return bookingRepository.save(booking);
+        Booking saved = bookingRepository.save(booking);
+
+        // Notify provider
+        notificationService.createNotification(
+            provider.getUser(),
+            "New Booking Request",
+            consumer.getName() + " has requested a booking",
+            Notification.NotificationType.BOOKING_CREATED
+        );
+
+        return saved;
     }
 
     public Booking findById(UUID id) {
@@ -54,6 +67,32 @@ public class BookingService {
         }
 
         booking.setStatus(newStatus);
-        return bookingRepository.save(booking);
+        Booking updated = bookingRepository.save(booking);
+
+        // Notifications based on status
+        if (newStatus == Booking.BookingStatus.CONFIRMED) {
+            notificationService.createNotification(
+                booking.getConsumer(),
+                "Booking Confirmed",
+                "Your booking has been confirmed by the provider",
+                Notification.NotificationType.BOOKING_CONFIRMED
+            );
+        } else if (newStatus == Booking.BookingStatus.COMPLETED) {
+            notificationService.createNotification(
+                booking.getConsumer(),
+                "Booking Completed",
+                "Your booking has been marked as completed",
+                Notification.NotificationType.BOOKING_COMPLETED
+            );
+        } else if (newStatus == Booking.BookingStatus.CANCELLED) {
+            notificationService.createNotification(
+                booking.getConsumer(),
+                "Booking Cancelled",
+                "Your booking has been cancelled",
+                Notification.NotificationType.BOOKING_CANCELLED
+            );
+        }
+
+        return updated;
     }
 }
