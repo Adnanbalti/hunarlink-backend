@@ -47,3 +47,11 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
+
+logging:
+  level:
+    com.hunarlink: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

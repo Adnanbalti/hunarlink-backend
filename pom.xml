@@ -11,8 +11,8 @@
 	<groupId>com.hunarlink</groupId>
 	<artifactId>backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>hunarlink-backend</name>
+	<description>HunarLink Service Marketplace Backend API</description>
 	<url/>
 	<licenses>
 		<license/>
