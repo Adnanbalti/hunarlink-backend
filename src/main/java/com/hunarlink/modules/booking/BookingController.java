@@ -9,7 +9,6 @@ import java.util.UUID;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Bookings", description = "Booking management endpoints")
-
 @RestController
 @RequestMapping("/api/v1/bookings")
 @RequiredArgsConstructor
@@ -24,6 +23,12 @@ public class BookingController {
             @RequestBody @Valid Booking booking) {
         Booking created = bookingService.createBooking(consumerId, providerId, booking);
         return ApiResponse.ok("Booking created successfully", created);
+    }
+
+    @GetMapping
+    public ApiResponse<List<Booking>> getAllBookings() {
+        List<Booking> bookings = bookingService.getAllBookings();
+        return ApiResponse.ok("All bookings fetched", bookings);
     }
 
     @GetMapping("/{id}")

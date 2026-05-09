@@ -1,5 +1,6 @@
 package com.hunarlink.modules.auth;
 
+import com.hunarlink.modules.auth.dto.AdminLoginRequest;
 import com.hunarlink.modules.auth.dto.AuthResponse;
 import com.hunarlink.modules.user.User;
 import com.hunarlink.modules.user.UserRepository;
@@ -14,6 +15,10 @@ public class AuthService {
     private final OtpService otpService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+
+    // Admin credentials (hardcoded — temporary)
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "hunarlink123";
 
     public void sendOtp(String phone) {
         otpService.generateAndStoreOtp(phone);
@@ -31,5 +36,15 @@ public class AuthService {
         String token = jwtUtil.generateToken(phone, user.getRole().name());
 
         return new AuthResponse(token, phone, user.getRole().name());
+    }
+
+    public AuthResponse adminLogin(AdminLoginRequest request) {
+        if (!ADMIN_USERNAME.equals(request.getUsername()) ||
+            !ADMIN_PASSWORD.equals(request.getPassword())) {
+            throw new RuntimeException("Invalid admin credentials");
+        }
+
+        String token = jwtUtil.generateToken(ADMIN_USERNAME, "ADMIN");
+        return new AuthResponse(token, ADMIN_USERNAME, "ADMIN");
     }
 }

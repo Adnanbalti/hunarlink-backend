@@ -32,7 +32,6 @@ public class BookingService {
 
         Booking saved = bookingRepository.save(booking);
 
-        // Notify provider
         notificationService.createNotification(
             provider.getUser(),
             "New Booking Request",
@@ -41,6 +40,10 @@ public class BookingService {
         );
 
         return saved;
+    }
+
+    public List<Booking> getAllBookings() {
+        return bookingRepository.findAll();
     }
 
     public Booking findById(UUID id) {
@@ -69,7 +72,6 @@ public class BookingService {
         booking.setStatus(newStatus);
         Booking updated = bookingRepository.save(booking);
 
-        // Notifications based on status
         if (newStatus == Booking.BookingStatus.CONFIRMED) {
             notificationService.createNotification(
                 booking.getConsumer(),

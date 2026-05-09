@@ -35,7 +35,6 @@ public class ReviewService {
 
         Review saved = reviewRepository.save(review);
 
-        // Update provider average rating
         Double avgRating = reviewRepository
                 .findAverageRatingByProviderId(booking.getProvider().getId());
         Provider provider = booking.getProvider();
@@ -43,6 +42,10 @@ public class ReviewService {
         providerRepository.save(provider);
 
         return saved;
+    }
+
+    public List<Review> getAllReviews() {
+        return reviewRepository.findAll();
     }
 
     public List<Review> getProviderReviews(UUID providerId) {

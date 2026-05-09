@@ -1,5 +1,6 @@
 package com.hunarlink.modules.auth;
 
+import com.hunarlink.modules.auth.dto.AdminLoginRequest;
 import com.hunarlink.modules.auth.dto.AuthResponse;
 import com.hunarlink.modules.auth.dto.SendOtpRequest;
 import com.hunarlink.modules.auth.dto.VerifyOtpRequest;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Authentication", description = "OTP based auth endpoints")
-
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -28,5 +28,11 @@ public class AuthController {
     public ApiResponse<AuthResponse> verifyOtp(@RequestBody @Valid VerifyOtpRequest request) {
         AuthResponse response = authService.verifyOtp(request.getPhone(), request.getOtp());
         return ApiResponse.ok("Login successful", response);
+    }
+
+    @PostMapping("/admin/login")
+    public ApiResponse<AuthResponse> adminLogin(@RequestBody AdminLoginRequest request) {
+        AuthResponse response = authService.adminLogin(request);
+        return ApiResponse.ok("Admin login successful", response);
     }
 }

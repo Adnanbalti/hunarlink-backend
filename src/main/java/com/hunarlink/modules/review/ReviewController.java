@@ -9,7 +9,6 @@ import java.util.UUID;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Reviews", description = "Review management endpoints")
-
 @RestController
 @RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
@@ -23,6 +22,12 @@ public class ReviewController {
             @RequestBody @Valid Review review) {
         Review created = reviewService.createReview(bookingId, review);
         return ApiResponse.ok("Review submitted successfully", created);
+    }
+
+    @GetMapping
+    public ApiResponse<List<Review>> getAllReviews() {
+        List<Review> reviews = reviewService.getAllReviews();
+        return ApiResponse.ok("All reviews fetched", reviews);
     }
 
     @GetMapping("/provider/{providerId}")
