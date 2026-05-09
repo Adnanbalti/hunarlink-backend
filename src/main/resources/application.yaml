@@ -23,6 +23,11 @@ spring:
       name: disable
       password: disable
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 server:
   port: 8080
 
@@ -32,11 +37,13 @@ management:
       exposure:
         include: health,info
 
-data:
-    redis:
-      host: localhost
-      port: 6379
-
 jwt:
   secret: hunarlink-secret-key-must-be-at-least-32-characters-long
   expiration: 86400000
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true

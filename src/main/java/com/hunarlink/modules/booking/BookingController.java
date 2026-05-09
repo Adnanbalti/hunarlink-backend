@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Bookings", description = "Booking management endpoints")
 
 @RestController
 @RequestMapping("/api/v1/bookings")
