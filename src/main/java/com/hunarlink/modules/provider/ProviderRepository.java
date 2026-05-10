@@ -10,6 +10,9 @@ import java.util.UUID;
 public interface ProviderRepository extends JpaRepository<Provider, UUID> {
     List<Provider> findBySkillContainingIgnoreCase(String skill);
     List<Provider> findByCityIgnoreCase(String city);
+    List<Provider> findByCountryIgnoreCase(String country);
     List<Provider> findBySkillContainingIgnoreCaseAndCityIgnoreCase(String skill, String city);
+    List<Provider> findBySkillContainingIgnoreCaseAndCountryIgnoreCase(String skill, String country);
+    List<Provider> findBySkillContainingIgnoreCaseAndCityIgnoreCaseAndCountryIgnoreCase(String skill, String city, String country);
     Optional<Provider> findByUserId(UUID userId);
 }

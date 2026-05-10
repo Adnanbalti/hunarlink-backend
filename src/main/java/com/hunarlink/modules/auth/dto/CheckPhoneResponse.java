@@ -5,9 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthResponse {
-    private String token;
-    private String phone;
+public class CheckPhoneResponse {
+    private boolean exists;
     private String role;
-    private String userId;
 }

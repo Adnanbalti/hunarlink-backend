@@ -1,9 +1,6 @@
 package com.hunarlink.modules.auth;
 
-import com.hunarlink.modules.auth.dto.AdminLoginRequest;
-import com.hunarlink.modules.auth.dto.AuthResponse;
-import com.hunarlink.modules.auth.dto.SendOtpRequest;
-import com.hunarlink.modules.auth.dto.VerifyOtpRequest;
+import com.hunarlink.modules.auth.dto.*;
 import com.hunarlink.shared.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +14,26 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AuthController {
 
     private final AuthService authService;
+
+    @GetMapping("/check-phone")
+    public ApiResponse<CheckPhoneResponse> checkPhone(@RequestParam String phone) {
+        CheckPhoneResponse response = authService.checkPhone(phone);
+        return ApiResponse.ok("Phone checked", response);
+    }
+
+    @PostMapping("/register/consumer")
+    public ApiResponse<AuthResponse> registerConsumer(
+            @RequestBody @Valid ConsumerRegisterRequest request) {
+        AuthResponse response = authService.registerConsumer(request);
+        return ApiResponse.ok("Consumer registered successfully", response);
+    }
+
+    @PostMapping("/register/provider")
+    public ApiResponse<AuthResponse> registerProvider(
+            @RequestBody @Valid ProviderRegisterRequest request) {
+        AuthResponse response = authService.registerProvider(request);
+        return ApiResponse.ok("Provider registered successfully", response);
+    }
 
     @PostMapping("/send-otp")
     public ApiResponse<String> sendOtp(@RequestBody @Valid SendOtpRequest request) {

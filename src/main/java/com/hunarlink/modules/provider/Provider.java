@@ -31,6 +31,15 @@ public class Provider {
     @Column(nullable = false)
     private String city;
 
+    @Column
+    private String country;
+
+    @Column(length = 13)
+    private String cnic;
+
+    @Column
+    private Integer yearsOfExperience;
+
     @NotNull(message = "Hourly rate is required")
     @Column(nullable = false)
     private Double hourlyRate;

@@ -9,7 +9,6 @@ import java.util.UUID;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Providers", description = "Provider management endpoints")
-
 @RestController
 @RequestMapping("/api/v1/providers")
 @RequiredArgsConstructor
@@ -31,11 +30,18 @@ public class ProviderController {
         return ApiResponse.ok("Provider found", provider);
     }
 
+    @GetMapping("/user/{userId}")
+    public ApiResponse<Provider> getProviderByUserId(@PathVariable UUID userId) {
+        Provider provider = providerService.findByUserId(userId);
+        return ApiResponse.ok("Provider found", provider);
+    }
+
     @GetMapping
     public ApiResponse<List<Provider>> search(
             @RequestParam(required = false) String skill,
-            @RequestParam(required = false) String city) {
-        List<Provider> providers = providerService.search(skill, city);
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) String country) {
+        List<Provider> providers = providerService.search(skill, city, country);
         return ApiResponse.ok("Providers fetched", providers);
     }
 }
